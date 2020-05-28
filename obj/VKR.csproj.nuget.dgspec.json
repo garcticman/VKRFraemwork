@@ -1,0 +1,65 @@
+{
+  "format": 1,
+  "restore": {
+    "A:\\DESKTOP\\VKR\\VKR.csproj": {}
+  },
+  "projects": {
+    "A:\\DESKTOP\\VKR\\VKR.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "A:\\DESKTOP\\VKR\\VKR.csproj",
+        "projectName": "VKR",
+        "projectPath": "A:\\DESKTOP\\VKR\\VKR.csproj",
+        "packagesPath": "C:\\Users\\Chuvash-2\\.nuget\\packages\\",
+        "outputPath": "A:\\DESKTOP\\VKR\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Chuvash-2\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "SDL2-CS.NetCore": {
+              "target": "Package",
+              "version": "[2.0.8, )"
+            },
+            "SDL2.Core": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}
