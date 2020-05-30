@@ -1,0 +1,14 @@
+A:\DESKTOP\VKR\bin\Debug\netcoreapp2.1\win-x64\hostpolicy.dll
+A:\DESKTOP\VKR\bin\Debug\netcoreapp2.1\win-x64\hostfxr.dll
+A:\DESKTOP\VKR\bin\Debug\netcoreapp2.1\win-x64\VKR.exe
+A:\DESKTOP\VKR\bin\Debug\netcoreapp2.1\win-x64\VKR.deps.json
+A:\DESKTOP\VKR\bin\Debug\netcoreapp2.1\win-x64\VKR.runtimeconfig.json
+A:\DESKTOP\VKR\bin\Debug\netcoreapp2.1\win-x64\VKR.runtimeconfig.dev.json
+A:\DESKTOP\VKR\bin\Debug\netcoreapp2.1\win-x64\VKR.dll
+A:\DESKTOP\VKR\bin\Debug\netcoreapp2.1\win-x64\VKR.pdb
+A:\DESKTOP\VKR\obj\Debug\netcoreapp2.1\win-x64\VKR.csprojAssemblyReference.cache
+A:\DESKTOP\VKR\obj\Debug\netcoreapp2.1\win-x64\VKR.csproj.CoreCompileInputs.cache
+A:\DESKTOP\VKR\obj\Debug\netcoreapp2.1\win-x64\VKR.AssemblyInfoInputs.cache
+A:\DESKTOP\VKR\obj\Debug\netcoreapp2.1\win-x64\VKR.AssemblyInfo.cs
+A:\DESKTOP\VKR\obj\Debug\netcoreapp2.1\win-x64\VKR.dll
+A:\DESKTOP\VKR\obj\Debug\netcoreapp2.1\win-x64\VKR.pdb

@@ -3,9 +3,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>CS0618</NoWarn>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="SDL2.Core" Version="2.2.0"/>
-    <PackageReference Include="SDL2-CS.NetCore" Version="2.0.8"/>
-  </ItemGroup>
 </Project>

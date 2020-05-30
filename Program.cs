@@ -1,44 +1,47 @@
-﻿using System;
-using SDL2;
+using System;
 using VKR;
 
 namespace Test
 {
-    class Program
+    class Program 
     {
         static int Main(string[] args)
         {
-            // Graphics.Image img = new Graphics.Image("", null);
-
-            // if (SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING) != 0) {
-            //     return 1;
-            // }
-
-            // IntPtr window = SDL.SDL_CreateWindow("Title", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED,
-            //     1020, 800, SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
-            // if (window == null) {
-            //     return 1;
-            // }
-
-            // IntPtr screen_surface = SDL.SDL_GetWindowSurface(window);
-
-            // unsafe {
-            //     var surface = (SDL.SDL_Surface *)screen_surface.ToPointer();
-
-            //     SDL.SDL_FillRect(screen_surface, IntPtr.Zero, 
-            //         SDL.SDL_MapRGB((*surface).format, 0, 100, 0));
-            //     SDL.SDL_UpdateWindowSurface(window);
-            // }
-
-            // SDL.SDL_Delay(2000);
-
-            // SDL.SDL_DestroyWindow(window);
-            // SDL.SDL_Quit();
-
-            Game game = new Game("Test", 640, 480);
+            Game game = new Game("Test", 640, 480, new MyScene());
             return game.Execute();
         }
+    }
 
+    class MyScene : Scene {
+        Input input;
+        Graphics graphics;
+        Graphics.Image testImage;
+        Graphics.Image chara;
 
+        public override void Start() {
+            input = game.GetInput();
+            graphics = game.GetGraphics();
+
+            Console.WriteLine("Hello");
+
+            testImage = new Graphics.Image("hello.bmp", graphics);
+
+            chara = new Graphics.Image("char.png", graphics);
+        }
+
+        public override void Update() {
+            if(input.IsExit()) 
+                game.Exit();
+
+            graphics.ClearAll(255, 0, 0);
+            testImage.Draw(0, 0);
+
+            chara.Draw(0, 0, 500, 500);
+            graphics.Render();
+        }
+
+        public override void Destroy() {
+            
+        }
     }
 }

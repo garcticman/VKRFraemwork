@@ -19,13 +19,19 @@ namespace VKR {
                 SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC); 
             if (window == IntPtr.Zero) {
                 throw new Exception("renderer creation error");
-            } 
+            }
         }
 
-        public void Flip() {
-            SDL.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-            SDL.SDL_RenderClear(renderer);
+        public void Render() {
             SDL.SDL_RenderPresent(renderer);
+        }
+
+        public void ClearAll() {
+            SDL.SDL_RenderClear(renderer);
+        }
+        public void ClearAll(byte r, byte g, byte b) {
+            SDL.SDL_RenderClear(renderer);
+            SDL.SDL_SetRenderDrawColor(renderer, r, g, b, 255);
         }
 
         public class Image {
@@ -39,47 +45,39 @@ namespace VKR {
                 }
                 this.parent = parent;
 
-                IntPtr tmpImage = SDL_image.IMG_Load(file);
-
-                surface = SDL.SDL_ConvertSurfaceFormat(tmpImage, SDL.SDL_GetWindowPixelFormat(parent.window), 0);
-            }
-
-            public Image(string file, byte r, byte g, byte b, Graphics parent) {
-                if (parent == null) {
-                    throw new Exception("Image constructor error: fill parent parametr");
+                surface = SDL_image.IMG_LoadTexture(parent.renderer, file);
+                if (surface == IntPtr.Zero) {
+                    throw new Exception(SDL.SDL_GetError());
                 }
-                this.parent = parent;
-
-                IntPtr tmpImage = SDL_image.IMG_Load(file);
-
-                surface = SDL.SDL_ConvertSurfaceFormat(tmpImage, SDL.SDL_GetWindowPixelFormat(parent.window), 0);
-
-                SDL.SDL_SetColorKey(surface, (int)SDL.SDL_bool.SDL_TRUE, SDL.SDL_MapRGB(getFormat(), r, g, b));
             }
 
             public void Draw(int x, int y) {
                 SDL.SDL_Rect area = new SDL.SDL_Rect();
                 area.x = x;
                 area.y = y;
-
-                SDL.SDL_BlitSurface(surface, IntPtr.Zero, parent.window, ref area);
-            }
-
-            public void Draw(int x, int y, int startX, int startY, int endX, int endY) {
-                SDL.SDL_Rect area = new SDL.SDL_Rect();
-                area.x = x;
-                area.y = y;
+                area.w = x + GetWidth();
+                area.h = y + GetHeight();
 
                 SDL.SDL_Rect srcArea = new SDL.SDL_Rect();
-                srcArea.x = startX;
-                srcArea.y = startY;
-                srcArea.w = endX;
-                srcArea.h = endY;
+                srcArea.x = 0;
+                srcArea.y = 0;
+                srcArea.w = GetWidth();
+                srcArea.h = GetHeight();
 
-                SDL.SDL_BlitSurface(surface, ref srcArea, parent.window, ref area);
+                SDL.SDL_RenderCopy(parent.renderer, surface, ref srcArea, ref area);
             }
 
-            int GetWidth() {
+            public void Draw(int startX, int startY, int endX, int endY) {
+                SDL.SDL_Rect area = new SDL.SDL_Rect();
+                area.x = startX;
+                area.y = startX;
+                area.w = endX;
+                area.h = endY;
+
+                SDL.SDL_RenderCopy(parent.renderer, surface, IntPtr.Zero, ref area);
+            }
+
+            public int GetWidth() {
                 unsafe {
                     SDL.SDL_Surface* image = (SDL.SDL_Surface*)surface.ToPointer();
                     return (*image).w;
@@ -87,7 +85,7 @@ namespace VKR {
                 
             }
 
-            int GetHeight() {
+            public int GetHeight() {
                 unsafe {
                     SDL.SDL_Surface* image = (SDL.SDL_Surface*)surface.ToPointer();
                     return (*image).h;
