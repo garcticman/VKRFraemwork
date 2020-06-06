@@ -36,8 +36,9 @@ namespace VKR {
 
         public class Image {
             IntPtr surface;
-
             Graphics parent;
+            SDL.SDL_Rect area;
+            public Point Position { get; private set; } = new Point(0, 0);
 
             public Image(string file, Graphics parent) {
                 if (parent == null) {
@@ -49,31 +50,24 @@ namespace VKR {
                 if (surface == IntPtr.Zero) {
                     throw new Exception(SDL.SDL_GetError());
                 }
+
+                area.x = 0;
+                area.y = 0;
+                area.w = GetWidth();
+                area.h = GetHeight();
             }
 
-            public void Draw(int x, int y) {
-                SDL.SDL_Rect area = new SDL.SDL_Rect();
-                area.x = x;
-                area.y = y;
-                area.w = x + GetWidth();
-                area.h = y + GetHeight();
+            // public void Draw(int x, int y) {
+            //     SDL.SDL_Rect srcArea = new SDL.SDL_Rect();
+            //     srcArea.x = 0;
+            //     srcArea.y = 0;
+            //     srcArea.w = GetWidth();
+            //     srcArea.h = GetHeight();
 
-                SDL.SDL_Rect srcArea = new SDL.SDL_Rect();
-                srcArea.x = 0;
-                srcArea.y = 0;
-                srcArea.w = GetWidth();
-                srcArea.h = GetHeight();
+            //     SDL.SDL_RenderCopy(parent.renderer, surface, ref srcArea, ref area);
+            // }
 
-                SDL.SDL_RenderCopy(parent.renderer, surface, ref srcArea, ref area);
-            }
-
-            public void Draw(int startX, int startY, int endX, int endY) {
-                SDL.SDL_Rect area = new SDL.SDL_Rect();
-                area.x = startX;
-                area.y = startX;
-                area.w = endX;
-                area.h = endY;
-
+            public void Draw() {
                 SDL.SDL_RenderCopy(parent.renderer, surface, IntPtr.Zero, ref area);
             }
 
@@ -90,6 +84,14 @@ namespace VKR {
                     SDL.SDL_Surface* image = (SDL.SDL_Surface*)surface.ToPointer();
                     return (*image).h;
                 }
+            }
+
+            public void SetPosition(Point point) {
+                Position = point;
+                area.x = point.X;
+                area.y = point.Y;
+                area.h = GetHeight();
+                area.w = GetWidth();
             }
 
             IntPtr getFormat() {

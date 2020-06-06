@@ -1,5 +1,6 @@
 using System;
 using VKR;
+using SDL2;
 
 namespace Test
 {
@@ -30,16 +31,58 @@ namespace Test
         }
 
         public override void Update() {
-            if(input.IsExit()) 
-                game.Exit();
-
             graphics.ClearAll(255, 0, 0);
-            testImage.Draw(0, 0);
 
-            chara.Draw(0, 0, 500, 500);
+            if (InputEvent.IsKeyPressed(InputEvent.Keys.S)) {
+                testImage.SetPosition(new Point(testImage.Position.X, testImage.Position.Y + 1));
+            }
+            if (InputEvent.IsKeyPressed(InputEvent.Keys.D)) {
+                testImage.SetPosition(new Point(testImage.Position.X + 1, testImage.Position.Y));
+            }
+            if (InputEvent.IsKeyPressed(InputEvent.Keys.W)) {
+                testImage.SetPosition(new Point(testImage.Position.X, testImage.Position.Y - 1));
+            }
+            if (InputEvent.IsKeyPressed(InputEvent.Keys.A)) {
+                testImage.SetPosition(new Point(testImage.Position.X - 1, testImage.Position.Y));
+            }
+
+            if (InputEvent.IsMouseButtonPressed(InputEvent.MouseButtons.BUTTON_LEFT)) {
+                testImage.SetPosition(new Point(InputEvent.GetMouseCoords().X, InputEvent.GetMouseCoords().Y));
+            }
+
+            testImage.Draw();
+
+            chara.Draw();
+
             graphics.Render();
         }
+        public override void OnKeyAction(InputEvent inputEvent) {
+            if (inputEvent.IsKeyDown(InputEvent.Keys.V)) {
+                Console.WriteLine("v - down");
+            }
+            if (inputEvent.IsKeyUp(InputEvent.Keys.V)) {
+                Console.WriteLine("v - up");
+            }
+            if (inputEvent.IsKeyDown(InputEvent.Keys.B)) {
+                Console.WriteLine("b - down");
+            }
+            if (inputEvent.IsKeyUp(InputEvent.Keys.B)) {
+                Console.WriteLine("b - up");
+            }
+        }
 
+        Point p = new Point(0, 0);
+        public override void OnMouseActing(InputEvent inputEvent) {
+            if (inputEvent.IsMouseButtonDown(InputEvent.MouseButtons.BUTTON_RIGHT)) {
+                p = testImage.Position;
+                testImage.SetPosition(new Point(InputEvent.GetMouseCoords().X, InputEvent.GetMouseCoords().Y));
+            } else if (inputEvent.IsMouseButtonUp(InputEvent.MouseButtons.BUTTON_RIGHT)) {
+                testImage.SetPosition(p);
+            }
+        }
+        public override void OnExit(InputEvent inputEvent) {
+            game.Exit();
+        }
         public override void Destroy() {
             
         }

@@ -14,6 +14,10 @@ namespace VKR {
 
             scene.SetController(this);
 
+            input.keyHandler += scene.OnKeyAction;
+            input.quitHandler += scene.OnExit;
+            input.mouseHandler += scene.OnMouseActing;
+
             run = true;
         }
 
