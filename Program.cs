@@ -16,7 +16,7 @@ namespace Test
     class MyScene : Scene {
         Input input;
         Graphics graphics;
-        Graphics.Image testImage;
+        Sprite testImage;
         Graphics.Image chara;
 
         public override void Start() {
@@ -25,9 +25,11 @@ namespace Test
 
             Console.WriteLine("Hello");
 
-            testImage = new Graphics.Image("hello.bmp", graphics);
+            testImage = new Sprite("hello.bmp", graphics);
 
             chara = new Graphics.Image("char.png", graphics);
+
+            testImage.Image.SetPosition(new Point(-testImage.Image.GetStartingWidth() / 2, -testImage.Image.GetStartingHeight() / 2));
         }
 
         public override void Update() {
@@ -49,6 +51,9 @@ namespace Test
             if (InputEvent.IsMouseButtonPressed(InputEvent.MouseButtons.BUTTON_LEFT)) {
                 testImage.SetPosition(new Point(InputEvent.GetMouseCoords().X, InputEvent.GetMouseCoords().Y));
             }
+            if (InputEvent.IsMouseButtonPressed(InputEvent.MouseButtons.BUTTON_RIGHT)) {
+                chara.SetPosition(new Point(InputEvent.GetMouseCoords().X, InputEvent.GetMouseCoords().Y));
+            }
 
             testImage.Draw();
 
@@ -68,6 +73,11 @@ namespace Test
             }
             if (inputEvent.IsKeyUp(InputEvent.Keys.B)) {
                 Console.WriteLine("b - up");
+            }
+
+            if (inputEvent.IsKeyDown(InputEvent.Keys.space)) {
+                chara.Width /= 5;
+                chara.Height /= 5;
             }
         }
 

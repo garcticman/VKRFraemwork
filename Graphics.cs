@@ -5,9 +5,9 @@ namespace VKR {
     class Graphics {
         IntPtr window;
         IntPtr renderer;
-
         public Graphics(string title, int width, int height) {
             SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING);
+            SDL.SDL_SetHint(SDL.SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 
             window = SDL.SDL_CreateWindow(title, SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, 
                 width, height, SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
@@ -39,6 +39,21 @@ namespace VKR {
             Graphics parent;
             SDL.SDL_Rect area;
             public Point Position { get; private set; } = new Point(0, 0);
+            int height, width;
+            public int Height { 
+                get { return height; } 
+                set {
+                    height = value;
+                    area.h = value;
+                } 
+            } 
+            public int Width { 
+                get { return width; } 
+                set {
+                    width = value;
+                    area.w = value;
+                } 
+            }
 
             public Image(string file, Graphics parent) {
                 if (parent == null) {
@@ -51,35 +66,27 @@ namespace VKR {
                     throw new Exception(SDL.SDL_GetError());
                 }
 
+                Width = GetStartingWidth();
+                Height = GetStartingHeight();
+
                 area.x = 0;
                 area.y = 0;
-                area.w = GetWidth();
-                area.h = GetHeight();
+                area.w = Width;
+                area.h = Height;
             }
-
-            // public void Draw(int x, int y) {
-            //     SDL.SDL_Rect srcArea = new SDL.SDL_Rect();
-            //     srcArea.x = 0;
-            //     srcArea.y = 0;
-            //     srcArea.w = GetWidth();
-            //     srcArea.h = GetHeight();
-
-            //     SDL.SDL_RenderCopy(parent.renderer, surface, ref srcArea, ref area);
-            // }
 
             public void Draw() {
                 SDL.SDL_RenderCopy(parent.renderer, surface, IntPtr.Zero, ref area);
             }
 
-            public int GetWidth() {
+            public int GetStartingWidth() {
                 unsafe {
                     SDL.SDL_Surface* image = (SDL.SDL_Surface*)surface.ToPointer();
                     return (*image).w;
                 }
                 
             }
-
-            public int GetHeight() {
+            public int GetStartingHeight() {
                 unsafe {
                     SDL.SDL_Surface* image = (SDL.SDL_Surface*)surface.ToPointer();
                     return (*image).h;
@@ -90,8 +97,8 @@ namespace VKR {
                 Position = point;
                 area.x = point.X;
                 area.y = point.Y;
-                area.h = GetHeight();
-                area.w = GetWidth();
+                area.h = Height;
+                area.w = Width;
             }
 
             IntPtr getFormat() {
