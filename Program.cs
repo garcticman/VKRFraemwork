@@ -17,7 +17,7 @@ namespace Test
         Input input;
         Graphics graphics;
         Sprite testImage;
-        Graphics.Image chara;
+        Sprite square;
 
         public override void Start() {
             input = game.GetInput();
@@ -25,15 +25,17 @@ namespace Test
 
             Console.WriteLine("Hello");
 
-            testImage = new Sprite("hello.bmp", graphics);
+            testImage = new Sprite("charzera.png", graphics);
+            testImage.FramesCount = 8;
+            testImage.Image.SetPosition(new Point(-testImage.Image.Width / 2, -testImage.Image.Height / 2));
 
-            chara = new Graphics.Image("char.png", graphics);
-
-            testImage.Image.SetPosition(new Point(-testImage.Image.GetStartingWidth() / 2, -testImage.Image.GetStartingHeight() / 2));
+            square = new Sprite("frames.png", graphics);
+            square.FramesCount = 4;
+            square.Animate = true;
         }
 
         public override void Update() {
-            graphics.ClearAll(255, 0, 0);
+            graphics.ClearAll(255, 255, 255);
 
             if (InputEvent.IsKeyPressed(InputEvent.Keys.S)) {
                 testImage.SetPosition(new Point(testImage.Position.X, testImage.Position.Y + 1));
@@ -51,19 +53,21 @@ namespace Test
             if (InputEvent.IsMouseButtonPressed(InputEvent.MouseButtons.BUTTON_LEFT)) {
                 testImage.SetPosition(new Point(InputEvent.GetMouseCoords().X, InputEvent.GetMouseCoords().Y));
             }
-            if (InputEvent.IsMouseButtonPressed(InputEvent.MouseButtons.BUTTON_RIGHT)) {
-                chara.SetPosition(new Point(InputEvent.GetMouseCoords().X, InputEvent.GetMouseCoords().Y));
-            }
 
-            testImage.Draw();
-
-            chara.Draw();
+            testImage.Draw(new Point(0, 45), new Point(25, 45), 8);
+            square.Draw(Point.Zero, new Point(32, 32), 64);
 
             graphics.Render();
         }
         public override void OnKeyAction(InputEvent inputEvent) {
             if (inputEvent.IsKeyDown(InputEvent.Keys.V)) {
                 Console.WriteLine("v - down");
+                testImage.Image.Crop(Point.Zero, new Point(25, 45));
+                testImage.Image.Width = 25 * 2;
+                testImage.Image.Height = 45 * 2;
+                
+                testImage.Image.SetPosition(testImage.Position - new Point(testImage.Image.Width, testImage.Image.Height) / 2);
+                testImage.Animate = true;
             }
             if (inputEvent.IsKeyUp(InputEvent.Keys.V)) {
                 Console.WriteLine("v - up");
@@ -74,10 +78,10 @@ namespace Test
             if (inputEvent.IsKeyUp(InputEvent.Keys.B)) {
                 Console.WriteLine("b - up");
             }
-
-            if (inputEvent.IsKeyDown(InputEvent.Keys.space)) {
-                chara.Width /= 5;
-                chara.Height /= 5;
+            if (inputEvent.IsKeyDown(InputEvent.Keys.A)) {
+                testImage.Image.Flip(Graphics.Image.FlipType.Horizontal);
+            } else if (inputEvent.IsKeyDown(InputEvent.Keys.D)) {
+                testImage.Image.Flip(Graphics.Image.FlipType.None);
             }
         }
 
